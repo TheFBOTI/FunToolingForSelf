@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 // TODO: Make a wizard/GUI for this rather
@@ -12,7 +13,6 @@ func main() {
 	// Iterate over all the files in the directory
 	//TODO: turn directoryPath into a feedable path.
 	dirPath := "DummyDirectory:/ToFolder"
-
 	// Grabs all files and folders in the directory.
 	arrayOfFiles, _ := os.ReadDir(dirPath)
 
@@ -39,6 +39,18 @@ func main() {
 				}
 			}
 
+			// Split the content onto new lines and print it out to console
+			// TODO: Put this into a text file, of a chosen destination
+			//STEP 1) HardCode location
+			//STEP 2) User defined location
+			lines := strings.Split(content, "\n")
+			for i, line := range lines {
+				if i == 0 || i == len(lines)-1 {
+					continue
+				}
+				fmt.Println(line)
+			}
+			fmt.Println(lines)
 		}
 	}
 }
