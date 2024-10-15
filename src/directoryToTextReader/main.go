@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 )
 
 // TODO: Make a wizard/GUI for this rather
 func main() {
 	// Iterate over all the files in the directory
 	//TODO: turn directoryPath into a feedable path.
-	dirPath := "DummyDirectory:/ToFolder"
+	dirPath := "DummyDirectory"
 	// Grabs all files and folders in the directory.
 	arrayOfFiles, _ := os.ReadDir(dirPath)
 
@@ -33,24 +32,21 @@ func main() {
 			var content string
 			for scanner.Scan() {
 				if scanner.Err() != io.EOF {
-					content += scanner.Text()
+					content += scanner.Text() + "\n"
 				} else {
 					break
 				}
 			}
-
-			// Split the content onto new lines and print it out to console
 			// TODO: Put this into a text file, of a chosen destination
-			//STEP 1) HardCode location
-			//STEP 2) User defined location
-			lines := strings.Split(content, "\n")
-			for i, line := range lines {
-				if i == 0 || i == len(lines)-1 {
-					continue
-				}
-				fmt.Println(line)
+			newFile, err := os.Create("dummyDirectory" + file.Name() + ".txt")
+			if err != nil {
+				fmt.Println(err)
+				return
 			}
-			fmt.Println(lines)
+			defer newFile.Close()
+
+			// Write the contents of the file to the new file
+			newFile.WriteString(content)
 		}
 	}
 }
