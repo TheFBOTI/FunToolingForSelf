@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // TODO: Make a wizard/GUI for this?
@@ -84,7 +85,8 @@ func main() {
 
 				// Depending on Flatten this will either write the contents from Scanner to either a file at base Output Directory or a nested view in line with the input directory
 				if !flatten {
-					newFile, createFileError = os.Create(outputDirectory + "/" + file.Name() + ".txt")
+					extensionStringModified := strings.ReplaceAll(extension, "\\", "_")
+					newFile, createFileError = os.Create(outputDirectory + "/" + extensionStringModified + "_" + file.Name() + ".txt")
 				} else {
 					newFile, createFileError = os.Create(outputDirectory + "/" + extension + "/" + file.Name() + ".txt")
 				}
