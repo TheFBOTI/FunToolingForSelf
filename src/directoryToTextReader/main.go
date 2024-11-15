@@ -48,7 +48,7 @@ func main() {
 		// Only used if flatten is false - but used to append to outPutDirectory Folder Creation and File Creation, extracts the difference between input and any folders found by findDirectories
 		extension, _ := filepath.Rel(inputDirectory, directoryPath.Name)
 		// Depending on flatten this will then check if a base Output Folder is present or if a nested Output Folder is present, if no it will create it with Read, Write, Execute permissions
-		if len(extension) != 0 && flatten {
+		if len(extension) != 0 && !flatten {
 			if _, err := os.Stat(outputDirectory + "/" + extension); os.IsNotExist(err) {
 				os.MkdirAll(outputDirectory+"/"+extension, 0755)
 			}
@@ -84,7 +84,7 @@ func main() {
 				var createFileError error
 
 				// Depending on Flatten this will either write the contents from Scanner to either a file at base Output Directory or a nested view in line with the input directory
-				if !flatten {
+				if flatten {
 					extensionStringModified := strings.ReplaceAll(extension, "\\", "_")
 					newFile, createFileError = os.Create(outputDirectory + "/" + extensionStringModified + "_" + file.Name() + ".txt")
 				} else {
